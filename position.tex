@@ -1,0 +1,202 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{todonotes}
+
+\usepackage[natbib=true]{biblatex}
+\addbibresource{ref.bib}
+\geometry{a4paper, margin=1in}
+
+\title{Position: Interpretability Should be Data-First}
+\author{Chungus P. Fungus}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    We propose that interpretability should be data-first.
+    Even when the final goal is bla bla bla.
+\end{abstract}
+
+\section{Introduction}
+
+\section{Background: Interpretability}
+The goal of interpretability is to understand ``why'' a
+machine learning model arrived at a given prediction.
+We might need this understanding
+to comply with regulation,
+ensure fairness, 
+or fix incorrect predictions.
+In this work, we'll roughly categorize interpretability research 
+into three guiding questions:
+\begin{enumerate}
+    \item {\em Would a \underline{\smash{specific}} change to my input change the prediction?}
+    This kind of question appears in contexts like that of fairness and robustness, 
+    where we often want to make sure that changing, e.g., the race of
+    an applicant \citep{TODO} or only the background of an image 
+    \citep{xiao2021noise} will {\em not} change a machine learning model's prediction.
+    \item {\em What change to the input \underline{would} change the prediction?} 
+    This type of question is also known as {\em recourse},
+    and is an important way to both assess the robustness of machine learning models
+    and also give decision subjects an avenue to improve their predictions.
+    \item {\em What aspects of the input bear responsibility for this prediction?}
+    This is perhaps the least well-formed of the three questions, 
+    but also the most aligned with what we might colloquially call ``interpretability.''
+    This question, for example, is what methods like feature attribution 
+    (e.g., SHAP, LIME, GradCAM) and visualization methods aim to tackle.
+\end{enumerate}
+All three of these questions have proved extremely difficult for a 
+variety of different reasons.
+The third question, which we'll call ``transparency,'' 
+is the most difficult while also being the one most commonly discussed.
+Many prior works have challenged legitimacy and reliability of existing
+interpretability methods.
+Phenomena such as model-invariance \citep{sanitychecks},
+superposition \citep{superposition},
+and adversarial examples \citep{adversarialexamples}
+all pose their own respective threats.
+
+\section{Feature-space vs data-space interpretability}
+In this section, we overview the two main approaches to interpretability
+that we will discuss in this paper.
+
+\subsection{Feature-space interpretability}
+\todo{Explain feature-space interpretability}
+
+\subsection{Data-first interpretability}
+Broadly speaking, data-first interpretability is the idea that we should
+explain model behavior by looking at the model's training data.
+More concretely: so far we have thought of the ``input'' as a single example
+(for example, an image or a sentence), and the ``model'' as a function---defined 
+by a set of parameters---that takes an input and returns a prediction.
+The data-first perspective instead thinks of the ``input'' as 
+a dataset, and the ``model'' as a function---defined by a {\em learning
+algorithm}---that takes a dataset and returns a prediction.
+
+\paragraph{Data attribution.} Much of the fuel behind this idea comes from
+recent advances in {\em training data attribution} \citep{}, allowing 
+\todo{talk about datamodels}
+
+\subsection{Out of scope: mechanistic interpretability}
+Another emergent field of interpretability research is that of mechanistic interpretability,
+which seeks to understand the inner workings of a model by decomposing it into its 
+constituent parts.
+To keep this paper focused, we will not discuss mechanistic interpretability 
+at length.
+In general, while the jury is still out on whether this approach can successfully 
+explain model behavior, we believe that it must contend with 
+(and come up with solutions to)
+all the challenges to feature-space interpretability 
+that we discuss in this work.
+
+
+\section{The challenge of interpretability}
+\todo{Integrate this section into the next one - the idea being that
+true interpretability requires a structural causal model, 
+and that model is easier to specify and test in data space.}
+Why is interpretability so hard? 
+We argue that the key to answering this question 
+is the (already well-known) realization that at its core,
+\begin{center}
+{\em interpretability is a causal inference problem} \citep{chungus,fungus,mungus}.
+\end{center}
+After all, a ``change'' to an input is simply an intervention or treatment 
+applied to that input, and a ``prediction'' is simply a measurable outcome. 
+And causal inference is all about understanding the relationship between
+treatments and outcomes.
+
+A causal perspective on interpretability allows us to understand the 
+desiderata associated with each of the three questions above.
+The first question simply asks us to measure the effect of a 
+pre-specified treatment on an outcome.
+The second question asks us to {\em find} a treatment that would yield a 
+desired outcome.
+The third question, on the other hand, is only answerable with a 
+complete causal model of the function in question.
+
+
+
+\section{Three advantages of data-first interpretability}
+Data-based transparency is not intrinsically ``better'' than its feature-based counterpart. 
+Both types of transparency seek to explain complex functions from 
+a high-dimensional input space to a prediction---for data-based explanations, 
+the input space is the space of training datasets and the complex function is 
+the model output function, while for feature-based explanations, the input space 
+is the space of input examples and the complex function is a forward pass through 
+the model.
+Rather than being inherently better, the advantages of data-first interpretability 
+come from the structure of this input space, and its relationship to the model's 
+behavior. In this position paper, we focus on three such advantages, 
+which we describe below.
+
+\subsection{Removal is well-defined}
+A common motif in feature-based interpretability is that of ``removing'' a
+feature from an input.
+For example, LIME \citep{ribeiro2016should}
+
+This is simple for humans, but far more challenging for machine learning models
+(Sturmfels et al., 2020). 
+We cannot leave a “hole" in the image where 
+the model should ignore the input; similarly, it is difficult to 
+``remove'' the style from a sentence.
+
+When the input is a dataset, however, the concept of ``removing'' a feature is 
+well-defined---we can simply remove an example (or set of examples) from the 
+training dataset.
+
+
+
+\subsection{The data landscape is more well-behaved}
+
+\subsection{Data counterfactuals are more actionable}
+Finally, we argue that data-first interpretability is more actionable 
+for the model developer, making it more suited to applications where 
+the end goal is to understand and debug the model's behavior.
+
+\section{Open directions}
+
+\subsection{Lifting to feature space}
+\subsection{Curbing misinterpretation}
+
+\paragraph{Improving usability.}
+Despite the existence of several performant data-based interpretability methods
+in the form of data attribution algorithms, practitioner uptake of these 
+tools has been slow. 
+Recent studies \citep{nguyen2023exploring} suggest 
+that part of the reason for this is that these tools lack 
+usability.
+For example, ...
+Future work on data-first interpretability should thus focus not only 
+on improving the performance of these tools, 
+but also on conveying their results to end users in a meaningful way.
+
+\subsection{Global verification and uncertainty}
+
+\section{Limitations of data-based interpretability}
+
+\paragraph{Non-determinism.}
+Almost by construction, we cannot use data-based interpretability to 
+understand the behavior of a specific model, but rather only the behavior 
+of the family of models induced by a learning algorithm.
+After all, if training on the same dataset yields different models, 
+the differences in these models' behavior cannot be attributed to 
+training data.
+
+\paragraph{Potential for misinterpretation.} It is also important to
+note that even when we have a complete causal model of a function,
+the way we present this model can lead to misinterpretation.
+
+\section{Alternative views}
+\todo{As specified by the CFP}
+
+\section{Related Work}
+
+\section{Conclusion}
+
+\printbibliography
+
+\end{document}
